@@ -1,0 +1,16 @@
+
+[build-system]
+requires = ["setuptools>=75"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "forkline"
+version = "0.1.0"
+description = "A persistent multiprocess job scheduler"
+requires-python = ">=3.12"
+
+[project.scripts]
+forkline = "forkline.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
