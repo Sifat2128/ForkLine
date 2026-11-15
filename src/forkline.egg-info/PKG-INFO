@@ -3,3 +3,7 @@ Name: forkline
 Version: 0.1.0
 Summary: A persistent multiprocess job scheduler
 Requires-Python: >=3.12
+Requires-Dist: SQLAlchemy>=2.0
+Requires-Dist: psycopg[binary]>=3.2
+Requires-Dist: python-dotenv>=1.0
+Requires-Dist: pydantic>=2.7

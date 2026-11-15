@@ -8,6 +8,12 @@ name = "forkline"
 version = "0.1.0"
 description = "A persistent multiprocess job scheduler"
 requires-python = ">=3.12"
+dependencies = [
+    "SQLAlchemy>=2.0",
+    "psycopg[binary]>=3.2",
+    "python-dotenv>=1.0",
+    "pydantic>=2.7",
+]
 
 [project.scripts]
 forkline = "forkline.cli:main"
