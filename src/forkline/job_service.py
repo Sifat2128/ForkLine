@@ -1,12 +1,11 @@
 
+from datetime import datetime, timedelta, timezone
+
 from pydantic import BaseModel
-from datetime import datetime,timezone
-from sqlalchemy import select
-from sqlalchemy.dialects.postgresql import insert
+from sqlalchemy import exists, select
+
 from forkline.database import SessionLocal
 from . import models
-from datetime import datetime,timezone,timedelta
-from sqlalchemy import exists
 
 def submit_job(task_name: str, task_input: BaseModel) -> int:
     with SessionLocal() as db:
@@ -49,19 +48,14 @@ def get_job(job_id: int) -> models.Job | None:
 def cancel_queued_job(job_id: int) -> bool:
     with SessionLocal() as db:
         try:
-            job = (
+            result = (
                 db.query(models.Job)
                 .filter(models.Job.id == job_id)
-                .first()
+                .update({models.Job.status :"CANCELLED"},synchronize_session = False)
             )
-
-            if job is None or job.status != "QUEUED":
-                return False
-
-            job.status = "CANCELLED"
             db.commit()
 
-            return True
+            return result == 1
 
         except Exception:
             db.rollback()
@@ -179,8 +173,6 @@ def mark_stale_workers_offline(timeout_seconds : int = 15)-> list[str]:
         except Exception:
             db.rollback()
             raise 
-        finally:
-           db.close()
 
 
 

@@ -2,7 +2,7 @@
 import argparse
 from pydantic import ValidationError
 from forkline.job_service import submit_job,list_jobs,get_job,cancel_queued_job
-from forkline.schemas import WaitTaskInput
+# from forkline.schemas import WaitTaskInput
 from forkline.tasks import TASK_REGISTRY
 
 
@@ -53,7 +53,7 @@ def handle_get_job(args:argparse.Namespace)->None:
     job = get_job(args.job_id)
     if not job:
         print(f"Job with id {args.job_id} does not exist")
-        SystemExit(1)
+        raise SystemExit(1)
     print(f"ID:         {job.id}")
     print(f"Task:       {job.task_name}")
     print(f"Status:     {job.status}")
@@ -61,7 +61,7 @@ def handle_get_job(args:argparse.Namespace)->None:
     print(f"Payload:    {job.payload}")
     print(f"Created at: {job.created_at}")
 
-def handle_cancel_queued_job(args:ArgumentParser.Namespace) -> None:
+def handle_cancel_queued_job(args:argparse.Namespace) -> None:
     cancelled = cancel_queued_job(args.job_id)
     if cancelled:
         print(f"Job {args.job_id} cancelled successfully.")
