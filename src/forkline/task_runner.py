@@ -14,5 +14,5 @@ def main()->None:
     payload = sys.argv[2]
     execute_task(task_name , payload)
 
-# if __name__ == "__main__":
-#     main()
+if __name__ == "__main__":
+    main()

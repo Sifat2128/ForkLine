@@ -51,6 +51,7 @@ def cancel_queued_job(job_id: int) -> bool:
             result = (
                 db.query(models.Job)
                 .filter(models.Job.id == job_id)
+                .filter(models.Job.status == "QUEUED")
                 .update({models.Job.status :"CANCELLED"},synchronize_session = False)
             )
             db.commit()
